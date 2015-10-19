@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 from __future__ import unicode_literals
-from flask import Flask, render_template, current_app, request, make_response, redirect, url_for, session,jsonify,Blueprint
+from flask import Flask, render_template, current_app, request, make_response, redirect, url_for, session,jsonify,Blueprint,Markup
 from flask.sessions import SessionInterface
 from flask.ext.paginate import Pagination
 import click

@@ -171,7 +171,7 @@ def items(user=None, folder=None):
                                 format_total=True,
                                 format_number=True,
                                 )
-    return render_template('items.php', items=items,
+    return render_template('items.html', items=items,
                            page=page,
                            per_page=per_page,
                            pagination=pagination,
@@ -199,7 +199,7 @@ def propsitem():
     with open('%s/static/Tags' % startdir, 'rb') as handle:
         tags = pickle.load(handle)
 
-    return render_template('items.php', propsitem=props, tags=tags)
+    return render_template('items.html', propsitem=props, tags=tags)
 
 
 @app.route('/showItem')
@@ -214,9 +214,9 @@ def showItem():
 
     iteminfo = (
         getprop(item, 0x42001fL), getprop(item, 0xe04001fL), getprop(item, 0xe03001fL), getprop(item, 0xe02001fL),
-        getprop(item, 0x37001fL), getprop(item, 0x10130102L), getprop(item, 0x1000001fL))
+        getprop(item, 0x37001fL), Markup(getprop(item, 0x10130102L)), getprop(item, 0x1000001fL))
 
-    return render_template('items.php', showmail=iteminfo,
+    return render_template('items.html', showmail=iteminfo,
                            attachments=attachment
                            )
 
@@ -270,7 +270,7 @@ def uploademl():
             for prop in zarafa.Server(options).user(user).item(item.entryid).props():
                 props.append(
                     [prop.id_, prop.idname, hex(prop.proptag), prop.typename, printprop(prop.typename, prop.value)])
-            return render_template('items.php', propsitem=props,
+            return render_template('items.html', propsitem=props,
                                    item=item.entryid
                                    )
         elif request.form['item']:
@@ -323,7 +323,7 @@ def searchitem():
         for prop in item.props():
             props.append(
                 [prop.id_, prop.idname, hex(prop.proptag), prop.typename, printprop(prop.typename, prop.value)])
-        return render_template('items.php', propsitem=props,
+        return render_template('items.html', propsitem=props,
                                item=item,
                                )
     else:
@@ -334,7 +334,7 @@ def searchitem():
                                     format_total=True,
                                     format_number=True,
                                     )
-        return render_template('items.php', items=items,
+        return render_template('items.html', items=items,
                                page=page,
                                per_page=per_page,
                                pagination=pagination,
@@ -447,7 +447,7 @@ def softdelete():
                                 format_total=True,
                                 format_number=True,
                                 )
-    return render_template('items.php', items=items,
+    return render_template('items.html', items=items,
                            page=page,
                            per_page=per_page,
                            pagination=pagination,
