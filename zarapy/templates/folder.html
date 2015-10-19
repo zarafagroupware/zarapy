@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block body %}
+
+{% if propsfolder %}
+  <div class="table-responsive">
+    <table class="table table-hover">
+    <thead>
+      <tr><th>ID</th><th>Name</th><th>Proptag</th><th>Typename</th><th>Value</th></tr>
+    </thead>
+    <tbody>
+      {% for folder in propsfolder %}
+      <tr>
+      <td>{{ folder[0] }}</td>
+      <td>{{ folder[1] }}</td>
+      <td>{{ folder[2] }}</td>
+      <td>{{ folder[3] }}</td>
+      <td>{{ folder[4] }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+    </table>
+  </div>
+  {% endif %}
+{% endblock %}
+
+{% block js %}
+  $('#folders-url').addClass('active');
+{% endblock %}

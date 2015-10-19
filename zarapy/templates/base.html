@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Zarapy</title>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/jquery.contextMenu.css') }}">
+
+	<script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/autosize.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/jquery.ui.position.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/jquery.contextMenu.js') }}"></script>
+
+	<script>
+	$(function(){
+		$.contextMenu('html5');
+	});
+	</script>
+	<script>
+		$('.editable').each(function(){
+   		 this.contentEditable = true;
+		});
+	</script>
+
+</head>
+<body>
+<div id="wrap">
+	<div id="header">
+		<div id="headerlinks">
+		<a href="/" title="user">Users</a>
+		{% if propsitem %}
+			<a href="{{ url_for('showItem') }} " >Show item</a>
+			<a href="{{ url_for('deleteItem', user=user, folder=folder, item=item ) }}"  >Delete item</a>
+			<a href="{{ url_for('eml', user=user, folder=folder, item=item) }} ">Export eml file</a>
+		{%endif%}
+		</div>
+		<h1><img src="{{ url_for('static', filename='image/zarafa2wit.svg') }}" alt="zarafa"  style="width:100px;height:100px;margin:-10px;"></h1>
+
+		<h5> <a href="{{ url_for('listusers') }} " >{{session['user']}}</a> {%if session['foldername'] %} <a href="{{ url_for('items') }} " >{{session['foldername']}}</a>{%endif%}{%if session['subject'] %}/{{session['subject']}}{%endif%} </h5>
+		{%if session['user']%}
+                    <form method= "POST" action="/searchitem" id="search">
+                    <input type="text"  id="text" name="search"  size="40" placeholder="Search for item..."  style="margin-top:-30px;">
+                    </form>
+	    {%endif%}
+	</div>
+
+	<div id="sidebar">
+
+		<div class="box">
+		<ul>
+
+		{% for folder in session['menu'] %}
+
+		<form action="/items" method="POST" name=items>
+		<input type="hidden"  value="{{user}}" name="user">
+		<input type="hidden"  value="{{folder[1]}}" name="folder">
+		<input type="submit"  value="{{folder[0]}}" name="folderid" class="btn btn-link" contextmenu="{{folder[1]}}" >
+		</form>
+		<menu id="{{folder[1]}}" type="context" style="display:none" class="showcase">
+ 			 <command label="Props" onclick="window.location.href='{{ url_for('propsfolder', folder=folder[1] ) }}'"icon="images/cut.png"></command>
+  			<command label="Softdelete" onclick="window.location.href='{{ url_for('softdelete',folder=folder[1] )}}'" icon="images/door.png"></command>
+		</menu>
+
+		{% endfor %}
+		</ul>
+		</div>
+
+	</div>
+
+	<div id="content">
+
+	{% block body %}{% endblock %}
+	</div>
+
+
+</div>
+</body>
+</html>

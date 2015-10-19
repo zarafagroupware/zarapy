@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block body %}
+{% if users %}
+  {{ pagination.info }}
+  {{ pagination.links }}
+  <div class="table-responsive">
+    <table class="table table-hover">
+    <thead>
+      <tr><th>Username</th><th>company</th><th>User store id</th><th>Server name</th>
+    </thead>
+    <tbody>
+      {% for user in users %}
+      <tr>
+      <td><form action="/folders" method="POST" name="folders">
+          <input type="submit" value="{{user[0]}}" name="user" class="btn btn-link">
+          </form>
+      </td>
+      <td>{{ user[1] }}</td>
+      <td>{{ user[2] }}</td>
+      <td>{{ user[3] }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+    </table>
+  </div>
+  {{ pagination.links }}
+  {% endif %}
+
+{% if listusers %}
+  <div class="table-responsive">
+    <table class="table table-hover">
+    <thead>
+      <tr><th>ID</th><th>Name</th><th>Proptag</th><th>Typename</th><th>Value</th></tr>
+    </thead>
+    <tbody>
+      {% for user in listusers %}
+      <tr>
+      <td>{{ user[0] }}</td>
+      <td>{{ user[1] }}</td>
+      <td>{{ user[2] }}</td>
+      <td>{{ user[3] }}</td>
+      <td>{{ user[4] }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+    </table>
+  </div>
+  {% endif %}
+{% endblock %}
+
+
+
+{% block js %}
+  $('#users-url').addClass('active');
+{% endblock %}

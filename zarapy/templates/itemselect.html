@@ -1,0 +1,70 @@
+{%if item[2] == '0x1a001fL'%}
+    <select name="value">
+    <option value="IPM.Note" {%if item[4] == 'IPM.Note'%} selected{%endif%}>IPM.Note </option>
+    <option value="IPM.Task" {%if item[4] == 'IPM.Task'%} selected{%endif%}>IPM.Task </option>
+    <option value="IPM.Contact" {%if item[4] == 'IPM.Contact'%} selected{%endif%}>IPM.Contact </option>
+    <option value="IPM.StickyNote" {%if item[4] == 'IPM.StickyNote'%} selected{%endif%}>IPM.StickyNote </option>
+    <option value="IPM.Appointment" {%if item[4] == 'IPM.Appointment'%} selected{%endif%}>IPM.Appointment</option>
+    </select>
+{%elif item[2] == '0x170003L'%}
+    <select name="value">
+    <option value="0" {%if item[4] == 0%} selected{%endif%}>Low </option>
+    <option value="1" {%if item[4] == 1%} selected{%endif%}>Normal</option>
+    <option value="2" {%if item[4] == 2%} selected{%endif%}>High</option>
+    </select>
+{%elif item[2] == '0x260003L'%}
+    <select name="value">
+    <option value="0" {%if item[4] == 0%} selected{%endif%}>No </option>
+    <option value="1" {%if item[4] == 1%} selected{%endif%}>Yes</option>
+    </select>
+{%elif item[2] == '0xe070003L'%}
+    <select name="value">
+    <option value="0" {%if item[4] == 0%} selected{%endif%}>unread</option>
+    <option value="1" {%if item[4] == 1%} selected{%endif%}>read</option>
+    </select>
+{%elif item[2] == '0x360003L'%}
+    <select name="value">
+    <option value="0" {%if item[4] == 0%} selected{%endif%}>insensitive</option>
+    <option value="1" {%if item[4] == 1%} selected{%endif%}>Personal</option>
+    <option value="2" {%if item[4] == 2%} selected{%endif%}>sensitive</option>
+    <option value="3" {%if item[4] == 3%} selected{%endif%}>Company Confidential</option>
+    </select>
+{%elif item[2] == '0x80050003L'%}
+    <select name="value">
+    <option value="0" {%if item[4] == 0%} selected{%endif%}>Free</option>
+    <option value="1" {%if item[4] == 1%} selected{%endif%}>Tentative</option>
+    <option value="2" {%if item[4] == 2%} selected{%endif%}>Busy</option>
+    <option value="3" {%if item[4] == 3%} selected{%endif%}>Out of office</option>
+    </select>
+{%elif item[2] == '0x80140003L'%}
+    <select name="value">
+    <option value="0" {%if item[4] == 0%} selected{%endif%}>None</option>
+    <option value="1" {%if item[4] == 1%} selected{%endif%}>Red</option>
+    <option value="2" {%if item[4] == 2%} selected{%endif%}>Blue</option>
+    <option value="3" {%if item[4] == 3%} selected{%endif%}>Green</option>
+    <option value="4" {%if item[4] == 4%} selected{%endif%}>Grey</option>
+    <option value="5" {%if item[4] == 5%} selected{%endif%}>Orange</option>
+    <option value="6" {%if item[4] == 6%} selected{%endif%}>Cyan</option>
+    <option value="7" {%if item[4] == 7%} selected{%endif%}>Olive</option>
+    <option value="8" {%if item[4] == 8%} selected{%endif%}>Purple</option>
+    <option value="9" {%if item[4] == 9%} selected{%endif%}>Teal</option>
+    <option value="10" {%if item[4] == 10%} selected{%endif%}>Yellow</option>
+    </select>
+{%elif item[2] == '0x80710003L'%}
+    <select name="value">
+    <option value="0" {%if item[4] == 0%} selected{%endif%}>Not started</option>
+    <option value="1" {%if item[4] == 1%} selected{%endif%}>In progress</option>
+    <option value="2" {%if item[4] == 2%} selected{%endif%}>Complete</option>
+    <option value="3" {%if item[4] == 3%} selected{%endif%}>Waiting</option>
+    <option value="4" {%if item[4] == 4%} selected{%endif%}>Deferred</option>    </select>
+{%elif item[3] == 'PT_BOOLEAN' %}
+    <select name="value">
+    <option value="True" {%if item[4] == True%} selected{%endif%}>True</option>
+    <option value="False" {%if item[4] == False%} selected{%endif%}>False</option>
+    </select>
+{%elif item[2] == '0x10130102L' %}
+  <textarea  name="value" cols="40" rows="6"  required >{{item[5]}}</textarea>
+{%else%}
+    <textarea  name="value" cols="40" rows="6"  required >{{item[4]}}</textarea>
+{%endif%}
+

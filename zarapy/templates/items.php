@@ -1,0 +1,164 @@
+{% extends 'base.html' %}
+
+{% block body %}
+{% if items%}
+  {{ pagination.info }}
+  {{ pagination.links }}
+  <!--  Eml Import
+  <div class="popup" >
+      <form action="/uploademl" method="POST" enctype="multipart/form-data" id="uploadForm" >
+         Select EML  file upload:
+        <input type="hidden"  value="{{session['user'] }}" name="user" >
+        <input type="hidden"  value="{{session['folder'] }}" name="folder" >
+         <input type="hidden"  value="item" name="item" >
+        <input type="file" name="fileToUpload" id="fileToUpload" ></center>
+       <br><input name="itemprop" type="checkbox" value="True" checked> Go to Item
+       <font color= Black><input type="submit" value="Upload EML" name="submit" ></font>
+      </form>
+    </div> -->
+
+  <div class="table-responsive" >
+    <table class="table table-hover" >
+    <thead>
+      <tr><th></th><th>Subject</th><th>Entryid</th></tr>
+    </thead>
+    <tbody>
+    <form action="/diffItem" method="POST" id="diff" >
+    <input type="hidden"  value="{{user}}" name="user" >
+    <input type="hidden"  value="{{folder}}" name="folder" >
+    </form>
+      {% for item in items %}
+      <tr>
+       {%if item[1] != '0000'%}
+        <td>
+            <input name="dfItems[]" type="checkbox" value="{{item[1]}}" form="diff" target="_blank"/>
+        </td>
+            <td><form action="/propsitem" method="POST" name="propsitem" >
+            <input type="hidden"  value="{{item[1]}}" name="item" >
+            <div id = "div2" > <input type="submit"  value="{{item[0]}}" class="btn btn-link" ></div></td>
+          </form>
+         </td>
+      <td>{{ item[1] }}</td>
+      {%else%}
+      <td></td><td>{{item[0]}}</td>
+      {%endif%}
+      </tr>
+      {% endfor %}
+    </tbody>
+    </table>
+  </div>
+  {{ pagination.links }}
+  {% endif %}
+
+{% if propsitem %}
+  <div class="table-responsive" >
+    <table class="table table-hover" >
+    <thead>
+      <tr><th>ID</th><th>Name</th><th>Proptag</th><th>Typename</th><th>Value</th><th></th></tr>
+    </thead>
+    <tr>
+    <datalist id="tags">
+     {%for tag in tags%}
+        <option value="{{tag['PR']}}">
+     {%endfor%}
+    </datalist>
+    <form action="/addprop" method="POST" name="addprop" >
+    <td></td>
+
+    <td><input type="text"  name="propname"  value="PR_" list="tags" size="35"> </td>
+    <td></td>
+    <td></td>
+    <td><input type="text"  name="value"     placeholder='Value'></td>
+    <td><input type="image"  src="{{ url_for('static', filename='image/verify.png') }}" width="10" height="10" ><td>
+     </form>
+     </tr>
+    <tbody>
+
+      {% for item in propsitem %}
+      <tr>
+      <td>{{ item[0] }}</td>
+      <td>{{ item[1] }}</td>
+      <td>{{ item[2] }}</td>
+      <td>{{ item[3] }}</td>
+      <td>
+      {%if not item[5] %}
+      <a href="#{{item[0]}}" title='{{item[4]}}' data-toggle="modal" data-target="#{{item[0]}}"> <div id = "div2">{{ item[4] }}</div></a> </td>
+      {%else%}
+      <a href="#{{item[0]}}" title='{{item[5]}}' data-toggle="modal" data-target="#{{item[0]}}"> <div id = "div2">Hover over to see full text</div></a> </td>
+      {%endif%}
+      <td><form action="/removeprop" method="POST" name="removeprop" >
+            <input type="hidden"  value="{{ item[1] }}" name="propname" >
+            <input type="hidden"  value="{{ item[2] }}" name="proptag" >
+            <input type="image"  src="{{ url_for('static', filename='image/delete.png') }}" width="10" height="10" ><td>
+          </form></td>
+
+        <div id="{{item[0]}}" class="modal fade" role="dialog">
+           <div class="modal-dialog" display: inline;>
+            <!-- Modal content-->
+            <div class="modal-content" display: inline;>
+              <div class="modal-header" display: inline;>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">{{item[1]}}</h4>
+              </div>
+              <div class="modal-body" display: inline;>
+              <form class="contact_form" action="/changeitem" method="post" name="contact_form">
+                <input type="hidden" value="{{item[2]}}" name="proptag" >
+                <input type="hidden" value="{{itemid}}" name="itemid" >
+                <p>{% include 'itemselect.html' %}</p>
+                  <button class="submit" type="submit">Save</button>
+                  </form>
+
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </tr>
+      {% endfor %}
+    </tbody>
+    </table>
+  </div>
+  {% endif %}
+
+
+{% if showmail %}
+                        From: {{showmail[0]}} <br>
+                        To:   {{showmail[1]}} <br>
+                        CC:   {{showmail[2]}} <br>
+                        Bcc:  {{showmail[3]}} <br>
+                        <br>
+                        Subject {{showmail[4]}} <br>
+                        <span class="spanFormat">
+                        Attachments:
+                        </span>
+                        {%if attachments %}
+                          {%for attachment in attachments%}
+                          <span class="spanFormat">
+                          <form action="/download" method="POST" name="download">
+                            <input type="hidden" value="{{attachment[1]}}" name="dowData" >
+                            <input type="submit" class="btn btn-link" value="{{attachment[0]}}" name="dowName">
+                            </form>
+                          </span>
+                          {%endfor%}
+                        {% endif %}
+                        <br><br>
+
+                        {%if showmail[5]%}
+                            <div class="editable">{{showmail[5]}}</div>
+
+                        {%else%}
+                        {{showmail[6]}}
+                        {%endif %}
+
+  {% endif %}
+
+
+{% endblock %}
+
+{% block js %}
+  $('#folders-url').addClass('active');
+{% endblock %}

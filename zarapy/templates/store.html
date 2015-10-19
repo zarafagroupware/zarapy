@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+{% if propsStore %}
+<p>{{session['user'] }} store </p>
+  <div class="table-responsive">
+    <table class="table table-hover">
+    <thead>
+
+      <tr><th>ID</th><th>Name</th><th>Proptag</th><th>Typename</th><th>Value</th></tr>
+    </thead>
+    <tbody>
+      {% for prop in propsStore %}
+      <tr>
+      <td>{{ prop[0] }}</td>
+      <td>{{ prop[1] }}</td>
+      <td>{{ prop[2] }}</td>
+      <td>{{ prop[3] }}</td>
+      <td><a href="#{{prop[0]}}"  title="{{prop[4]}}"><div id = "div2"> {{ prop[4] }}</div></a></td>
+          <div id="{{prop[0]}}" class="modalDialog">
+              <div>
+                <a href="#close" title="Close" class="close">X</a>
+                <h4>{{prop[1]}} <br></h4>
+                <form class="contact_form" action="/changestore" method="post" name="contact_form">
+                <input type="hidden" value="{{user}}" name="user" >
+                <input type="hidden" value="{{prop[2]}}" name="proptag" >
+                <ul>
+                    <li>
+                        <label for="value">value:</label>
+                        <textarea name="value" cols="40" rows="6"  required >{{prop[4]}}</textarea>
+                    </li>
+                    <li>
+                          <button class="submit" type="submit">Save</button>
+                    </li>
+                </ul>
+                </form>
+              </div>
+          </div>
+      </tr>
+      {% endfor %}
+    </tbody>
+    </table>
+  </div>
+  {% endif %}
+{% endblock %}
+
+{% block js %}
+  $('#folders-url').addClass('active');
+{% endblock %}
