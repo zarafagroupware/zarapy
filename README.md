@@ -4,6 +4,9 @@ Zarapy
 Zarapy is a GUI web application which can be used to "look into" Zarafa.
 It's similiar to OutlookSpy and MFCMAPI but it's Zarafa specific. (This program isn't actively supported by Zarafa)
 
+![Zarapy](https://github.com/zarafagroupware/zarapy/tree/master/zarapy/static/imagezarafa.png "Zarapy example")
+
+
 Features
 ========
 
